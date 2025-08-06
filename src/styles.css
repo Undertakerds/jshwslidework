@@ -1,129 +1,699 @@
-/* Reset */
+/* Імпорт сучасних шрифтів */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap');
+
+/* Скидання і базові стилі */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background: #121212;
-  color: #eee;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Exo 2', sans-serif;
+  background: #0a0a0a;
+  color: #ffffff;
+  overflow: hidden;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  margin: 0;
 }
 
+/* Динамічний фон */
+.background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.geometric-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(45deg, transparent 40%, rgba(0, 255, 255, 0.03) 50%, transparent 60%),
+    linear-gradient(-45deg, transparent 40%, rgba(255, 215, 0, 0.03) 50%, transparent 60%),
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  animation: backgroundShift 20s ease-in-out infinite;
+}
+
+@keyframes backgroundShift {
+
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(1deg) scale(1.02);
+  }
+}
+
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.15), transparent),
+    radial-gradient(1px 1px at 40px 70px, rgba(0, 255, 255, 0.1), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(255, 215, 0, 0.1), transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(255, 119, 198, 0.1), transparent);
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  animation: particleFloat 30s linear infinite;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0px) translateX(0px);
+  }
+
+  100% {
+    transform: translateY(-100vh) translateX(100px);
+  }
+}
+
+.neon-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridPulse 4s ease-in-out infinite;
+}
+
+@keyframes gridPulse {
+
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 0.1;
+  }
+}
+
+/* Головний слайдер */
 .slider {
   position: relative;
   width: 90vw;
-  max-width: 720px;
+  max-width: 1200px;
+  height: 70vh;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 0 20px #00ccff88;
-  background: #222;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .slides {
   display: flex;
-  transition: transform 0.5s ease-in-out;
-  touch-action: pan-y;
-  /* Дозволяє вертикальний скрол, блокує горизонтальний */
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .slide {
   min-width: 100%;
-  user-select: none;
-  pointer-events: none;
-  /* Видаліть це для тач-подій */
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.slide-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,
+      rgba(0, 255, 255, 0.1) 0%,
+      rgba(255, 119, 198, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.slide.active .slide-bg {
+  opacity: 1;
 }
 
 .slide img {
-  display: block;
-  width: 100%;
-  height: 420px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 10px;
-  pointer-events: none;
-  /* Залишаємо тільки для зображень */
+  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+  filter: brightness(0.8) contrast(1.2);
+  transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+  transform: scale(1.1);
 }
 
-/* Controls */
+.slide.active img {
+  transform: scale(1);
+  filter: brightness(1) contrast(1.1);
+}
+
+/* Контент слайду */
+.slide-content {
+  position: relative;
+  z-index: 2;
+  width: 50%;
+  padding: 60px;
+  transform: translateX(-50px);
+  opacity: 0;
+  transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.slide.active .slide-content {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.slide-title {
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.title-main {
+  display: block;
+  font-size: 3.5rem;
+  font-weight: 900;
+  background: linear-gradient(45deg, #00ffff, #ff77c6, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transform: translateY(100px);
+  transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+  text-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+}
+
+.title-sub {
+  display: block;
+  font-size: 2rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  transform: translateY(100px);
+  transition: transform 1.4s cubic-bezier(0.23, 1, 0.32, 1);
+  margin-top: 10px;
+}
+
+.slide.active .title-main {
+  transform: translateY(0);
+  animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+.slide.active .title-sub {
+  transform: translateY(0);
+}
+
+@keyframes textGlow {
+  0% {
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+  }
+
+  100% {
+    text-shadow: 0 0 40px rgba(0, 255, 255, 0.8), 0 0 60px rgba(255, 119, 198, 0.3);
+  }
+}
+
+.slide-description {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 30px;
+  line-height: 1.6;
+  transform: translateY(50px);
+  opacity: 0;
+  transition: all 1.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.slide.active .slide-description {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.slide-stats {
+  display: flex;
+  gap: 30px;
+  transform: translateY(30px);
+  opacity: 0;
+  transition: all 1.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.slide.active .slide-stats {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  background: rgba(0, 255, 255, 0.1);
+  border-color: rgba(0, 255, 255, 0.3);
+  transform: translateY(-5px);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #00ffff;
+}
+
+/* Елементи управління */
 .controls {
   position: absolute;
   top: 50%;
   width: 100%;
   display: flex;
   justify-content: space-between;
+  padding: 0 30px;
   transform: translateY(-50%);
-  padding: 0 10px;
   pointer-events: none;
 }
 
-button {
-  background: #00ccffbb;
+.control-btn {
+  position: relative;
+  width: 60px;
+  height: 60px;
   border: none;
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  font-size: 24px;
-  color: #121212;
+  background: transparent;
   cursor: pointer;
   pointer-events: auto;
-  transition: background-color 0.3s ease;
+  overflow: hidden;
+  border-radius: 50%;
+  transition: all 0.3s ease;
 }
 
-button:hover {
-  background: #00ccff;
-  color: #fff;
+.btn-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
 }
 
-/* Pause/play */
+.btn-icon {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(0, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.4s ease;
+}
+
+.control-btn:hover .btn-bg {
+  background: rgba(0, 255, 255, 0.2);
+  border-color: rgba(0, 255, 255, 0.4);
+  transform: scale(1.1);
+}
+
+.control-btn:hover .btn-ripple {
+  width: 80px;
+  height: 80px;
+}
+
+.control-btn:active {
+  transform: scale(0.95);
+}
+
+/* Кнопка паузи */
 .pause-play {
   position: absolute;
-  bottom: 12px;
-  right: 12px;
-  background: #00ccffbb;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
   border: none;
+  background: transparent;
   cursor: pointer;
-  color: #121212;
-  font-size: 22px;
-  pointer-events: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.3s ease;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-.pause-play:hover {
-  background: #00ccff;
-  color: #fff;
+.pause-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 119, 198, 0.2);
+  border-radius: 50%;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 119, 198, 0.4);
+  transition: all 0.3s ease;
 }
 
-/* Indicators */
+.pause-icon {
+  position: relative;
+  z-index: 2;
+  color: #ff77c6;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  border: 2px solid rgba(255, 119, 198, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.4);
+    opacity: 0;
+  }
+}
+
+.pause-play:hover .pause-bg {
+  background: rgba(255, 119, 198, 0.3);
+  transform: scale(1.1);
+}
+
+/* Індикатори */
 .indicators {
   position: absolute;
-  bottom: 12px;
+  bottom: 30px;
   left: 50%;
-  display: flex;
-  gap: 10px;
   transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
   pointer-events: auto;
 }
 
 .indicator {
-  width: 14px;
-  height: 14px;
-  background: #00ccff88;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.indicator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.8) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.4s ease;
+}
+
+.indicator:hover {
+  background: rgba(0, 255, 255, 0.5);
+  transform: scale(1.3);
+}
+
+.indicator:hover::before {
+  width: 20px;
+  height: 20px;
 }
 
 .indicator.active {
-  background: #00ccff;
-  box-shadow: 0 0 8px #00ccffbb;
+  background: linear-gradient(45deg, #00ffff, #ff77c6);
+  transform: scale(1.5);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+}
+
+.indicator.active::before {
+  width: 25px;
+  height: 25px;
+  animation: indicatorPulse 2s ease-in-out infinite;
+}
+
+@keyframes indicatorPulse {
+
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+/* Прогрес-бар */
+.progress-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.progress-bar {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00ffff, #ff77c6, #ffd700);
+  width: 0%;
+  transition: width 0.1s linear;
+  position: relative;
+}
+
+.progress-glow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8));
+  transform: translateX(10px);
+  animation: progressGlow 2s ease-in-out infinite;
+}
+
+@keyframes progressGlow {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Лічильник слайдів */
+.slide-counter {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#currentSlide {
+  color: #00ffff;
+  font-weight: bold;
+}
+
+.counter-separator {
+  margin: 0 10px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Адаптивність */
+@media (max-width: 1024px) {
+  .slider {
+    width: 95vw;
+    height: 60vh;
+  }
+
+  .slide-content {
+    width: 55%;
+    padding: 40px;
+  }
+
+  .title-main {
+    font-size: 2.8rem;
+  }
+
+  .title-sub {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .slider {
+    height: 80vh;
+  }
+
+  .slide {
+    flex-direction: column;
+  }
+
+  .slide img {
+    position: relative;
+    width: 100%;
+    height: 50%;
+    clip-path: none;
+  }
+
+  .slide-content {
+    width: 100%;
+    height: 50%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .title-main {
+    font-size: 2.2rem;
+  }
+
+  .title-sub {
+    font-size: 1.4rem;
+  }
+
+  .slide-stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slide-content {
+    padding: 20px;
+  }
+
+  .title-main {
+    font-size: 1.8rem;
+  }
+
+  .title-sub {
+    font-size: 1.2rem;
+  }
+
+  .slide-description {
+    font-size: 1rem;
+  }
+
+  .controls {
+    padding: 0 20px;
+  }
+
+  .control-btn {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* Спеціальні ефекти при переключенні */
+.slide-enter {
+  animation: slideEnter 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.slide-exit {
+  animation: slideExit 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes slideEnter {
+  0% {
+    opacity: 0;
+    transform: translateX(100px) scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slideExit {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-100px) scale(0.9);
+  }
 }

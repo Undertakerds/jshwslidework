@@ -4,31 +4,219 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Функціональний слайдер на JS</title>
+  <title>Сучасний слайдер League of Legends</title>
   <link rel="stylesheet" href="styles.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>
+  <!-- Динамічний фон -->
+  <div class="background-container">
+    <div class="geometric-bg"></div>
+    <div class="particles"></div>
+    <div class="neon-grid"></div>
+  </div>
 
+  <!-- Головний слайдер -->
   <div class="slider" id="slider">
+    <!-- Слайди з анімованими елементами -->
     <div class="slides" id="slides">
-      <div class="slide"><img src="images/072622-star-guardian-akali-splash.png" alt="Slide 1" /></div>
-      <div class="slide"><img src="images/Aurora_0.jpg" alt="Slide 2" /></div>
-      <div class="slide"><img
-          src="images/content-original-championillustrations-jhin-classic-bc9e95633a30ef2bb731992939130aec.jpg"
-          alt="Slide 3" /></div>
-      <div class="slide"><img src="images/league-of-legends-zahvatila-ves-mir-za-mesyac_1638282112904051028.jpg"
-          alt="Slide 4" /></div>
+      <!-- Перший слайд: League of Legends -->
+      <div class="slide" data-bg="legends">
+        <div class="slide-bg"></div>
+        <img src="images/league-of-legends-zahvatila-ves-mir-za-mesyac_1638282112904051028.jpg"
+          alt="League of Legends" />
+        <div class="slide-content">
+          <div class="slide-title" data-text="League of Legends">
+            <span class="title-main">League of</span>
+            <span class="title-sub">Legends</span>
+          </div>
+          <div class="slide-description">Найпопулярніша MOBA в світі з епічними битвами на Ущелині Призивачів</div>
+          <div class="slide-stats">
+            <div class="stat-item">
+              <span class="stat-label">Гравців</span>
+              <span class="stat-value">180M+</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Чемпіонів</span>
+              <span class="stat-value">170</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Років</span>
+              <span class="stat-value">13+</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Другий слайд: Spirit Blossom Akali -->
+      <div class="slide" data-bg="akali">
+        <div class="slide-bg"></div>
+        <img src="images/Akali_92.jpg" alt="Spirit Blossom Akali" />
+        <div class="slide-content">
+          <div class="slide-title" data-text="Spirit Blossom Akali">
+            <span class="title-main">Akali</span>
+            <span class="title-sub">Spirit Blossom</span>
+          </div>
+          <div class="slide-description">Весняний дух-ніндзя, що охороняє священні квіти сакури</div>
+          <div class="slide-stats">
+            <div class="stat-item">
+              <span class="stat-label">Роль</span>
+              <span class="stat-value">Assassin</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Складність</span>
+              <span class="stat-value">★★★★☆</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Тематика</span>
+              <span class="stat-value">Mid/Top</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Третій слайд: Aurora -->
+      <div class="slide" data-bg="aurora">
+        <div class="slide-bg"></div>
+        <img src="images/Aurora_0.jpg" alt="Aurora" />
+        <div class="slide-content">
+          <div class="slide-title" data-text="Aurora">
+            <span class="title-main">Aurora</span>
+            <span class="title-sub">The Witch Between Worlds</span>
+          </div>
+          <div class="slide-description">Могутня відьма з ледяними здібностями між світами</div>
+          <div class="slide-stats">
+            <div class="stat-item">
+              <span class="stat-label">Роль</span>
+              <span class="stat-value">Mage</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Складність</span>
+              <span class="stat-value">★★★☆☆</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Позиція</span>
+              <span class="stat-value">Mid/top</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Четвертий слайд: Jhin -->
+      <div class="slide" data-bg="jhin">
+        <div class="slide-bg"></div>
+        <img src="images/content-original-championillustrations-jhin-classic-bc9e95633a30ef2bb731992939130aec.jpg"
+          alt="Jhin" />
+        <div class="slide-content">
+          <div class="slide-title" data-text="The Virtuoso Jhin">
+            <span class="title-main">The Virtuoso</span>
+            <span class="title-sub">Jhin</span>
+          </div>
+          <div class="slide-description">Художник смерті, який перетворює вбивства на мистецтво</div>
+          <div class="slide-stats">
+            <div class="stat-item">
+              <span class="stat-label">Роль</span>
+              <span class="stat-value">Marksman</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Складність</span>
+              <span class="stat-value">★★★★★</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Позиція</span>
+              <span class="stat-value">ADC</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- П'ятий слайд: Yuumi (кішечка) -->
+      <div class="slide" data-bg="yuumi">
+        <div class="slide-bg"></div>
+        <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yuumi_0.jpg" alt="Yuumi" />
+        <div class="slide-content">
+          <div class="slide-title" data-text="The Magical Cat Yuumi">
+            <span class="title-main">The Magical Cat</span>
+            <span class="title-sub">Yuumi</span>
+          </div>
+          <div class="slide-description">Чарівна кішечка з волшебною книгою, яка підтримує союзників</div>
+          <div class="slide-stats">
+            <div class="stat-item">
+              <span class="stat-label">Роль</span>
+              <span class="stat-value">Support</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Складність</span>
+              <span class="stat-value">★★☆☆☆</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Позиція</span>
+              <span class="stat-value">Support</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <!-- Покращені елементи управління -->
     <div class="controls">
-      <button id="prev" aria-label="Попередній слайд">&#10094;</button>
-      <button id="next" aria-label="Наступний слайд">&#10095;</button>
+      <button id="prev" aria-label="Попередній слайд" class="control-btn">
+        <span class="btn-bg"></span>
+        <span class="btn-icon">❮</span>
+        <div class="btn-ripple"></div>
+      </button>
+      <button id="next" aria-label="Наступний слайд" class="control-btn">
+        <span class="btn-bg"></span>
+        <span class="btn-icon">❯</span>
+        <div class="btn-ripple"></div>
+      </button>
     </div>
 
-    <button class="pause-play" id="pausePlay" aria-label="Пауза/відновити">&#10073;&#10073;</button>
+    <!-- Розумна кнопка паузи -->
+    <button class="pause-play" id="pausePlay" aria-label="Пауза/відновити">
+      <span class="pause-bg"></span>
+      <span class="pause-icon">⏸</span>
+      <div class="pulse-ring"></div>
+    </button>
 
+    <!-- Модернізовані індикатори -->
     <div class="indicators" id="indicators"></div>
+
+    <!-- Прогрес-бар з ефектами -->
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-glow"></div>
+      </div>
+    </div>
+
+    <!-- Декоративні елементи -->
+    <div class="slide-counter">
+      <span id="currentSlide">1</span>
+      <span class="counter-separator">/</span>
+      <span id="totalSlides">5</span>
+    </div>
+
+    <!-- Брендинг слайдера -->
+    <div class="slider-brand">
+      <div class="brand-logo">LoL</div>
+      <div class="brand-text">Champions</div>
+    </div>
+
+    <!-- Навігаційні підказки -->
+    <div class="nav-hints">
+      <div class="hint left">
+        <span class="hint-icon">←</span>
+        <span class="hint-text">Попередній</span>
+      </div>
+      <div class="hint right">
+        <span class="hint-text">Наступний</span>
+        <span class="hint-icon">→</span>
+      </div>
+    </div>
   </div>
 
   <script src="main.js"></script>

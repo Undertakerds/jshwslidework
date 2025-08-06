@@ -6,76 +6,174 @@
   const nextBtn = document.getElementById('next');
   const pausePlayBtn = document.getElementById('pausePlay');
   const indicatorsContainer = document.getElementById('indicators');
+  const progressFill = document.getElementById('progressFill');
+  const currentSlideDisplay = document.getElementById('currentSlide');
+  const totalSlidesDisplay = document.getElementById('totalSlides');
 
   let currentIndex = 0;
   const slideCount = slides.length;
   let intervalId = null;
-  const intervalTime = 4000;
+  let progressInterval = null;
+  const intervalTime = 5000;
   let isPlaying = true;
+  let isTransitioning = false;
+
+  // Ініціалізація
+  totalSlidesDisplay.textContent = slideCount;
 
   // Ініціалізація індикаторів
   slides.forEach((_, i) => {
     const dot = document.createElement('div');
     dot.className = 'indicator' + (i === 0 ? ' active' : '');
     dot.addEventListener('click', () => {
-      goToSlide(i);
-      resetInterval();
+      if (!isTransitioning) {
+        goToSlide(i);
+        resetInterval();
+      }
     });
     indicatorsContainer.appendChild(dot);
   });
   const indicators = [...indicatorsContainer.children];
 
-  // Відображення слайда
+  // Оновлення слайду з анімаціями
   function updateSlide() {
+    if (isTransitioning) return;
+    isTransitioning = true;
+
+    // Видаляємо активний клас з усіх слайдів
+    slides.forEach(slide => slide.classList.remove('active'));
+
+    // Трансформація слайдера
     slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-    indicators.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+
+    // Додаємо активний клас до поточного слайду
+    setTimeout(() => {
+      slides[currentIndex].classList.add('active');
+    }, 100);
+
+    // Оновлюємо індикатори
+    indicators.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentIndex);
+    });
+
+    // Оновлюємо лічильник
+    currentSlideDisplay.textContent = currentIndex + 1;
+
+    // Завершуємо перехід
+    setTimeout(() => {
+      isTransitioning = false;
+    }, 800);
   }
 
   function goToSlide(index) {
+    if (isTransitioning) return;
     currentIndex = (index + slideCount) % slideCount;
     updateSlide();
   }
 
   function nextSlide() {
+    if (isTransitioning) return;
     goToSlide(currentIndex + 1);
   }
+
   function prevSlide() {
+    if (isTransitioning) return;
     goToSlide(currentIndex - 1);
+  }
+
+  // Прогрес-бар
+  function startProgress() {
+    let progress = 0;
+    const increment = 100 / (intervalTime / 50);
+
+    progressInterval = setInterval(() => {
+      progress += increment;
+      progressFill.style.width = `${Math.min(progress, 100)}%`;
+
+      if (progress >= 100) {
+        progress = 0;
+      }
+    }, 50);
+  }
+
+  function stopProgress() {
+    clearInterval(progressInterval);
+    progressInterval = null;
+    progressFill.style.width = '0%';
+  }
+
+  function resetProgress() {
+    stopProgress();
+    if (isPlaying) startProgress();
   }
 
   // Автоматичне прокручування
   function startInterval() {
     if (intervalId) return;
     intervalId = setInterval(() => {
-      nextSlide();
+      if (!isTransitioning) {
+        nextSlide();
+      }
     }, intervalTime);
     isPlaying = true;
     updatePausePlayBtn();
+    startProgress();
   }
+
   function stopInterval() {
     clearInterval(intervalId);
     intervalId = null;
     isPlaying = false;
     updatePausePlayBtn();
+    stopProgress();
   }
+
   function resetInterval() {
-    stopInterval();
-    if (isPlaying) startInterval();
+    if (isPlaying) {
+      stopInterval();
+      startInterval();
+    }
   }
 
   function updatePausePlayBtn() {
-    pausePlayBtn.innerHTML = isPlaying ? '&#10073;&#10073;' : '&#9658;';
+    const icon = pausePlayBtn.querySelector('.pause-icon');
+    icon.textContent = isPlaying ? '⏸' : '▶';
     pausePlayBtn.setAttribute('aria-label', isPlaying ? 'Пауза' : 'Відновити');
   }
 
-  // Події кнопок
-  prevBtn.addEventListener('click', () => {
-    prevSlide();
-    resetInterval();
+  // Події кнопок з тактильним відгуком
+  function addRippleEffect(button, event) {
+    const ripple = button.querySelector('.btn-ripple');
+    if (ripple) {
+      ripple.style.width = '0';
+      ripple.style.height = '0';
+
+      setTimeout(() => {
+        ripple.style.width = '80px';
+        ripple.style.height = '80px';
+      }, 10);
+
+      setTimeout(() => {
+        ripple.style.width = '0';
+        ripple.style.height = '0';
+      }, 400);
+    }
+  }
+
+  prevBtn.addEventListener('click', (e) => {
+    if (!isTransitioning) {
+      addRippleEffect(prevBtn, e);
+      prevSlide();
+      resetInterval();
+    }
   });
-  nextBtn.addEventListener('click', () => {
-    nextSlide();
-    resetInterval();
+
+  nextBtn.addEventListener('click', (e) => {
+    if (!isTransitioning) {
+      addRippleEffect(nextBtn, e);
+      nextSlide();
+      resetInterval();
+    }
   });
 
   pausePlayBtn.addEventListener('click', () => {
@@ -88,104 +186,90 @@
 
   // Клавіатурне управління
   document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight') {
-      nextSlide();
-      resetInterval();
-    } else if (e.key === 'ArrowLeft') {
-      prevSlide();
-      resetInterval();
-    } else if (e.key === ' ' || e.code === 'Space') {
-      e.preventDefault(); // Запобігаємо скролу сторінки
-      if (isPlaying) {
-        stopInterval();
-      } else {
-        startInterval();
-      }
+    if (isTransitioning) return;
+
+    switch (e.key) {
+      case 'ArrowRight':
+        nextSlide();
+        resetInterval();
+        break;
+      case 'ArrowLeft':
+        prevSlide();
+        resetInterval();
+        break;
+      case ' ':
+        e.preventDefault();
+        if (isPlaying) stopInterval();
+        else startInterval();
+        break;
     }
   });
 
-  // ВИПРАВЛЕНІ тач-події
+  // Покращені тач-жести
   let startX = 0;
   let startY = 0;
   let isDragging = false;
-  let moved = false;
 
-  // Універсальні функції для отримання координат
-  function getClientX(e) {
-    return e.touches ? e.touches[0].clientX : e.clientX;
-  }
-
-  function getClientY(e) {
-    return e.touches ? e.touches[0].clientY : e.clientY;
-  }
-
-  function handleStart(e) {
+  function onTouchStart(e) {
+    if (isTransitioning) return;
     isDragging = true;
-    moved = false;
-    startX = getClientX(e);
-    startY = getClientY(e);
+    const touch = e.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
 
-    // Зупиняємо автоматичне прокручування
-    if (isPlaying) {
-      clearInterval(intervalId);
-      intervalId = null;
+    if (isPlaying) stopInterval();
+  }
+
+  function onTouchMove(e) {
+    if (!isDragging || isTransitioning) return;
+
+    const touch = e.touches[0];
+    const deltaX = Math.abs(touch.clientX - startX);
+    const deltaY = Math.abs(touch.clientY - startY);
+
+    if (deltaX > deltaY && deltaX > 10) {
+      e.preventDefault();
     }
   }
 
-  function handleMove(e) {
-    if (!isDragging) return;
+  function onTouchEnd(e) {
+    if (!isDragging || isTransitioning) return;
 
-    const currentX = getClientX(e);
-    const currentY = getClientY(e);
-    const diffX = Math.abs(currentX - startX);
-    const diffY = Math.abs(currentY - startY);
+    const touch = e.changedTouches[0];
+    const endX = touch.clientX;
+    const diff = endX - startX;
 
-    // Якщо горизонтальний рух більший - це свайп
-    if (diffX > diffY && diffX > 10) {
-      moved = true;
-      e.preventDefault(); // Блокуємо скрол сторінки
-    }
-  }
-
-  function handleEnd(e) {
-    if (!isDragging) return;
-
-    const endX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
-    const diffX = endX - startX;
-    const absDiffX = Math.abs(diffX);
-
-    // Мінімальна відстань для свайпу - 30px
-    if (moved && absDiffX > 30) {
-      if (diffX > 0) {
-        prevSlide(); // Свайп вправо → попередній
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        prevSlide();
       } else {
-        nextSlide(); // Свайп вліво → наступний
+        nextSlide();
       }
     }
 
     isDragging = false;
-    moved = false;
 
-    // Відновлюємо автоматичне прокручування
     if (isPlaying) {
-      intervalId = setInterval(() => {
-        nextSlide();
-      }, intervalTime);
+      setTimeout(startInterval, 500);
     }
   }
 
-  // Додаємо події до слайдера (не тільки до контейнера)
-  slider.addEventListener('touchstart', handleStart, { passive: false });
-  slider.addEventListener('touchmove', handleMove, { passive: false });
-  slider.addEventListener('touchend', handleEnd, { passive: true });
+  // Додаємо тач-події
+  slidesContainer.addEventListener('touchstart', onTouchStart, { passive: false });
+  slidesContainer.addEventListener('touchmove', onTouchMove, { passive: false });
+  slidesContainer.addEventListener('touchend', onTouchEnd, { passive: true });
 
-  // Події для миші
-  slider.addEventListener('mousedown', handleStart);
-  slider.addEventListener('mousemove', handleMove);
-  slider.addEventListener('mouseup', handleEnd);
-  slider.addEventListener('mouseleave', handleEnd);
+  // Обробка видимості сторінки
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopInterval();
+    } else if (isPlaying) {
+      startInterval();
+    }
+  });
 
-  // Запуск
+  // Ініціалізація
+  slides[0].classList.add('active');
   updateSlide();
   startInterval();
 
