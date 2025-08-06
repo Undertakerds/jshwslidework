@@ -72,7 +72,6 @@
     goToSlide(currentIndex - 1);
   }
 
-  // Прогрес-бар
   function startProgress() {
     let progress = 0;
     const increment = 100 / (intervalTime / 50);
@@ -173,7 +172,6 @@
     }
   });
 
-  // Клавіатурне управління
   document.addEventListener('keydown', e => {
     if (isTransitioning) return;
 
