@@ -1,0 +1,129 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #121212;
+  color: #eee;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.slider {
+  position: relative;
+  width: 90vw;
+  max-width: 720px;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #00ccff88;
+  background: #222;
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  touch-action: pan-y;
+  /* Дозволяє вертикальний скрол, блокує горизонтальний */
+}
+
+.slide {
+  min-width: 100%;
+  user-select: none;
+  pointer-events: none;
+  /* Видаліть це для тач-подій */
+}
+
+.slide img {
+  display: block;
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 10px;
+  pointer-events: none;
+  /* Залишаємо тільки для зображень */
+}
+
+/* Controls */
+.controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  padding: 0 10px;
+  pointer-events: none;
+}
+
+button {
+  background: #00ccffbb;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 24px;
+  color: #121212;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background: #00ccff;
+  color: #fff;
+}
+
+/* Pause/play */
+.pause-play {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: #00ccffbb;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+  color: #121212;
+  font-size: 22px;
+  pointer-events: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.pause-play:hover {
+  background: #00ccff;
+  color: #fff;
+}
+
+/* Indicators */
+.indicators {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  display: flex;
+  gap: 10px;
+  transform: translateX(-50%);
+  pointer-events: auto;
+}
+
+.indicator {
+  width: 14px;
+  height: 14px;
+  background: #00ccff88;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.indicator.active {
+  background: #00ccff;
+  box-shadow: 0 0 8px #00ccffbb;
+}

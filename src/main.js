@@ -1,108 +1,192 @@
-console.log('#9. JavaScript homework example file')
+(() => {
+  const slider = document.getElementById('slider');
+  const slidesContainer = document.getElementById('slides');
+  const slides = [...slidesContainer.children];
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const pausePlayBtn = document.getElementById('pausePlay');
+  const indicatorsContainer = document.getElementById('indicators');
 
-/*
- * #1
- *
- * Задача: Відстежування кліку на кнопку та виведення повідомлення
- * Мета: Розробити функцію, яка призначає обробник події кліку на кнопку з певним ID і виводить у консоль заздалегідь визначене повідомлення при кожному кліку на кнопку.
- *
- * Вимоги:
- * 1. Функція має приймати два параметри:
- *    - buttonId (рядок) - ID кнопки, на яку потрібно встановити обробник події.
- *    - message (рядок) - повідомлення, яке буде виводитись у консоль при кліку на кнопку.
- * 2. Функція має знайти кнопку за допомогою buttonId і призначити їй обробник події кліку.
- * 3. При кліку на кнопку у консоль має виводитись задане message.
- * 4. Функція має бути експортована для подальшого використання і тестування.
- *
- */
+  let currentIndex = 0;
+  const slideCount = slides.length;
+  let intervalId = null;
+  const intervalTime = 4000;
+  let isPlaying = true;
 
-function handleButtonClick(buttonId, message) {
-  const button = document.getElementById(buttonId);
-  if (!button) {
-    console.warn(`Кнопка з ID "${buttonId}" не знайдена.`);
-    return;
+  // Ініціалізація індикаторів
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'indicator' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => {
+      goToSlide(i);
+      resetInterval();
+    });
+    indicatorsContainer.appendChild(dot);
+  });
+  const indicators = [...indicatorsContainer.children];
+
+  // Відображення слайда
+  function updateSlide() {
+    slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+    indicators.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
   }
 
-  button.addEventListener('click', () => {
-    console.log(message);
-  });
-}
-
-export { handleButtonClick };
-
-
-// Демонстрація використання функції (припустимо, що HTML містить кнопку з ID 'myButton')
-// handleButtonClick('myButton', 'Button clicked!');
-
-/*
- * #2
- *
- * Задача: Розробка функції відстеження позиції курсору миші
- * Мета: Створити функцію trackMousePosition, яка встановлює обробник події для відстеження руху миші по документу та виводить в консоль координати курсору миші (X та Y).
- *
- * Вимоги до реалізації:
- * 1. Функціональність: Функція має відслідковувати рух миші по документу. При кожному русі миші функція має виводити в консоль координати clientX та clientY, які представляють позицію курсору відносно вікна переглядача.
- * 2. Реєстрація обробника події: Функція має використовувати document.addEventListener для реєстрації обробника події mousemove.
- * 3. Вивід даних: При спрацьовуванні події mousemove, функція має виводити рядок у форматі `"Mouse X: [X], Mouse Y: [Y]"`, де `[X]` та `[Y]` - це відповідні координати курсору миші.
- *
- */
-
-function trackMousePosition() {
-  document.addEventListener('mousemove', (event) => {
-    const x = event.clientX;
-    const y = event.clientY;
-    console.log(`Mouse X: ${x}, Mouse Y: ${y}`);
-  });
-}
-
-export { trackMousePosition };
-
-
-// console.log(trackMousePosition())
-
-/*
- * #3
- *
- * Задача: Реалізація делегування подій для відстеження кліків на елементах списку
- * Мета: Створити функцію setupEventDelegation, яка дозволить встановити обробник подій на весь список, замість окремих елементів `<li>`. Функція повинна відстежувати кліки на елементах <li> у межах заданого списку і логувати текст "Item clicked: [Текст Елемента]", де "[Текст Елемента]" - це текст клікнутого елемента `<li>`, в консоль.
- *
- * Вимоги до реалізації:
- * 1. Вибір елемента списку: Функція повинна приймати селектор CSS як аргумент, що вказує на елемент списку `<ul>` або `<ol>`, до якого буде застосовано делегування подій.
- * 2. Встановлення обробника подій: Використовуючи метод addEventListener, функція має додати обробник для події `click` на весь список. Обробник повинен спрацьовувати при кліку на будь-який з елементів `<li>` у цьому списку.
- * 3. Логування кліків: Коли елемент <li> клікнуто, функція має вивести у консоль повідомлення у форматі "Item clicked: [Текст Елемента]", де "[Текст Елемента]" має бути текстом клікнутого елемента <li>. Текст елемента має бути обрізаним trim(), щоб видалити зайві пробіли на початку та в кінці.
- *
- */
-
-// function createTestList() {
-//   document.body.innerHTML = `
-//     <ul id="testList">
-//       <li>Item 1</li>
-//       <li>Item 2</li>
-//       <li>Item 3</li>
-//     </ul>
-//     `
-// }
-// createTestList()
-
-function setupEventDelegation(selector) {
-  const list = document.querySelector(selector);
-  if (!list) {
-    console.warn(`Список з селектором "${selector}" не знайдено.`);
-    return;
+  function goToSlide(index) {
+    currentIndex = (index + slideCount) % slideCount;
+    updateSlide();
   }
 
-  console.log('Setting up delegation for:', selector); // DEBUG
+  function nextSlide() {
+    goToSlide(currentIndex + 1);
+  }
+  function prevSlide() {
+    goToSlide(currentIndex - 1);
+  }
 
-  list.addEventListener('click', (event) => {
-    const target = event.target;
-    if (target && target.tagName === 'LI') {
-      const text = target.textContent.trim();
-      console.log(`Item clicked: ${text}`);
+  // Автоматичне прокручування
+  function startInterval() {
+    if (intervalId) return;
+    intervalId = setInterval(() => {
+      nextSlide();
+    }, intervalTime);
+    isPlaying = true;
+    updatePausePlayBtn();
+  }
+  function stopInterval() {
+    clearInterval(intervalId);
+    intervalId = null;
+    isPlaying = false;
+    updatePausePlayBtn();
+  }
+  function resetInterval() {
+    stopInterval();
+    if (isPlaying) startInterval();
+  }
+
+  function updatePausePlayBtn() {
+    pausePlayBtn.innerHTML = isPlaying ? '&#10073;&#10073;' : '&#9658;';
+    pausePlayBtn.setAttribute('aria-label', isPlaying ? 'Пауза' : 'Відновити');
+  }
+
+  // Події кнопок
+  prevBtn.addEventListener('click', () => {
+    prevSlide();
+    resetInterval();
+  });
+  nextBtn.addEventListener('click', () => {
+    nextSlide();
+    resetInterval();
+  });
+
+  pausePlayBtn.addEventListener('click', () => {
+    if (isPlaying) {
+      stopInterval();
+    } else {
+      startInterval();
     }
   });
-}
 
-// setupEventDelegation('#testList')
+  // Клавіатурне управління
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') {
+      nextSlide();
+      resetInterval();
+    } else if (e.key === 'ArrowLeft') {
+      prevSlide();
+      resetInterval();
+    } else if (e.key === ' ' || e.code === 'Space') {
+      e.preventDefault(); // Запобігаємо скролу сторінки
+      if (isPlaying) {
+        stopInterval();
+      } else {
+        startInterval();
+      }
+    }
+  });
 
-// Експорт функції для використання та тестування
-export { handleButtonClick, trackMousePosition, setupEventDelegation }
+  // ВИПРАВЛЕНІ тач-події
+  let startX = 0;
+  let startY = 0;
+  let isDragging = false;
+  let moved = false;
+
+  // Універсальні функції для отримання координат
+  function getClientX(e) {
+    return e.touches ? e.touches[0].clientX : e.clientX;
+  }
+
+  function getClientY(e) {
+    return e.touches ? e.touches[0].clientY : e.clientY;
+  }
+
+  function handleStart(e) {
+    isDragging = true;
+    moved = false;
+    startX = getClientX(e);
+    startY = getClientY(e);
+
+    // Зупиняємо автоматичне прокручування
+    if (isPlaying) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  }
+
+  function handleMove(e) {
+    if (!isDragging) return;
+
+    const currentX = getClientX(e);
+    const currentY = getClientY(e);
+    const diffX = Math.abs(currentX - startX);
+    const diffY = Math.abs(currentY - startY);
+
+    // Якщо горизонтальний рух більший - це свайп
+    if (diffX > diffY && diffX > 10) {
+      moved = true;
+      e.preventDefault(); // Блокуємо скрол сторінки
+    }
+  }
+
+  function handleEnd(e) {
+    if (!isDragging) return;
+
+    const endX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+    const diffX = endX - startX;
+    const absDiffX = Math.abs(diffX);
+
+    // Мінімальна відстань для свайпу - 30px
+    if (moved && absDiffX > 30) {
+      if (diffX > 0) {
+        prevSlide(); // Свайп вправо → попередній
+      } else {
+        nextSlide(); // Свайп вліво → наступний
+      }
+    }
+
+    isDragging = false;
+    moved = false;
+
+    // Відновлюємо автоматичне прокручування
+    if (isPlaying) {
+      intervalId = setInterval(() => {
+        nextSlide();
+      }, intervalTime);
+    }
+  }
+
+  // Додаємо події до слайдера (не тільки до контейнера)
+  slider.addEventListener('touchstart', handleStart, { passive: false });
+  slider.addEventListener('touchmove', handleMove, { passive: false });
+  slider.addEventListener('touchend', handleEnd, { passive: true });
+
+  // Події для миші
+  slider.addEventListener('mousedown', handleStart);
+  slider.addEventListener('mousemove', handleMove);
+  slider.addEventListener('mouseup', handleEnd);
+  slider.addEventListener('mouseleave', handleEnd);
+
+  // Запуск
+  updateSlide();
+  startInterval();
+
+})();

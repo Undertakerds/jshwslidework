@@ -1,12 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Функціональний слайдер на JS</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
 
-<script src="main.js" type="module"></script>
+  <div class="slider" id="slider">
+    <div class="slides" id="slides">
+      <div class="slide"><img src="images/072622-star-guardian-akali-splash.png" alt="Slide 1" /></div>
+      <div class="slide"><img src="images/Aurora_0.jpg" alt="Slide 2" /></div>
+      <div class="slide"><img
+          src="images/content-original-championillustrations-jhin-classic-bc9e95633a30ef2bb731992939130aec.jpg"
+          alt="Slide 3" /></div>
+      <div class="slide"><img src="images/league-of-legends-zahvatila-ves-mir-za-mesyac_1638282112904051028.jpg"
+          alt="Slide 4" /></div>
+    </div>
 
+    <div class="controls">
+      <button id="prev" aria-label="Попередній слайд">&#10094;</button>
+      <button id="next" aria-label="Наступний слайд">&#10095;</button>
+    </div>
+
+    <button class="pause-play" id="pausePlay" aria-label="Пауза/відновити">&#10073;&#10073;</button>
+
+    <div class="indicators" id="indicators"></div>
+  </div>
+
+  <script src="main.js"></script>
 </body>
+
 </html>
