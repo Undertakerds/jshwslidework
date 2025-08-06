@@ -18,10 +18,8 @@
   let isPlaying = true;
   let isTransitioning = false;
 
-  // Ініціалізація
   totalSlidesDisplay.textContent = slideCount;
 
-  // Ініціалізація індикаторів
   slides.forEach((_, i) => {
     const dot = document.createElement('div');
     dot.className = 'indicator' + (i === 0 ? ' active' : '');
@@ -35,31 +33,24 @@
   });
   const indicators = [...indicatorsContainer.children];
 
-  // Оновлення слайду з анімаціями
   function updateSlide() {
     if (isTransitioning) return;
     isTransitioning = true;
 
-    // Видаляємо активний клас з усіх слайдів
     slides.forEach(slide => slide.classList.remove('active'));
 
-    // Трансформація слайдера
     slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
 
-    // Додаємо активний клас до поточного слайду
     setTimeout(() => {
       slides[currentIndex].classList.add('active');
     }, 100);
 
-    // Оновлюємо індикатори
     indicators.forEach((dot, i) => {
       dot.classList.toggle('active', i === currentIndex);
     });
 
-    // Оновлюємо лічильник
     currentSlideDisplay.textContent = currentIndex + 1;
 
-    // Завершуємо перехід
     setTimeout(() => {
       isTransitioning = false;
     }, 800);
@@ -107,7 +98,6 @@
     if (isPlaying) startProgress();
   }
 
-  // Автоматичне прокручування
   function startInterval() {
     if (intervalId) return;
     intervalId = setInterval(() => {
@@ -141,7 +131,6 @@
     pausePlayBtn.setAttribute('aria-label', isPlaying ? 'Пауза' : 'Відновити');
   }
 
-  // Події кнопок з тактильним відгуком
   function addRippleEffect(button, event) {
     const ripple = button.querySelector('.btn-ripple');
     if (ripple) {
@@ -205,7 +194,6 @@
     }
   });
 
-  // Покращені тач-жести
   let startX = 0;
   let startY = 0;
   let isDragging = false;
@@ -254,12 +242,10 @@
     }
   }
 
-  // Додаємо тач-події
   slidesContainer.addEventListener('touchstart', onTouchStart, { passive: false });
   slidesContainer.addEventListener('touchmove', onTouchMove, { passive: false });
   slidesContainer.addEventListener('touchend', onTouchEnd, { passive: true });
 
-  // Обробка видимості сторінки
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       stopInterval();
@@ -268,7 +254,6 @@
     }
   });
 
-  // Ініціалізація
   slides[0].classList.add('active');
   updateSlide();
   startInterval();

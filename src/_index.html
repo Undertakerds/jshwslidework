@@ -12,18 +12,14 @@
 </head>
 
 <body>
-  <!-- Динамічний фон -->
   <div class="background-container">
     <div class="geometric-bg"></div>
     <div class="particles"></div>
     <div class="neon-grid"></div>
   </div>
 
-  <!-- Головний слайдер -->
   <div class="slider" id="slider">
-    <!-- Слайди з анімованими елементами -->
     <div class="slides" id="slides">
-      <!-- Перший слайд: League of Legends -->
       <div class="slide" data-bg="legends">
         <div class="slide-bg"></div>
         <img src="images/league-of-legends-zahvatila-ves-mir-za-mesyac_1638282112904051028.jpg"
@@ -51,7 +47,6 @@
         </div>
       </div>
 
-      <!-- Другий слайд: Spirit Blossom Akali -->
       <div class="slide" data-bg="akali">
         <div class="slide-bg"></div>
         <img src="images/Akali_92.jpg" alt="Spirit Blossom Akali" />
@@ -68,17 +63,16 @@
             </div>
             <div class="stat-item">
               <span class="stat-label">Складність</span>
-              <span class="stat-value">★★★★☆</span>
+              <span class="stat-value">★★★★★</span>
             </div>
             <div class="stat-item">
-              <span class="stat-label">Тематика</span>
+              <span class="stat-label">Позиція</span>
               <span class="stat-value">Mid/Top</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Третій слайд: Aurora -->
       <div class="slide" data-bg="aurora">
         <div class="slide-bg"></div>
         <img src="images/Aurora_0.jpg" alt="Aurora" />
@@ -95,7 +89,7 @@
             </div>
             <div class="stat-item">
               <span class="stat-label">Складність</span>
-              <span class="stat-value">★★★☆☆</span>
+              <span class="stat-value">★★★★☆</span>
             </div>
             <div class="stat-item">
               <span class="stat-label">Позиція</span>
@@ -105,7 +99,6 @@
         </div>
       </div>
 
-      <!-- Четвертий слайд: Jhin -->
       <div class="slide" data-bg="jhin">
         <div class="slide-bg"></div>
         <img src="images/content-original-championillustrations-jhin-classic-bc9e95633a30ef2bb731992939130aec.jpg"
@@ -123,7 +116,7 @@
             </div>
             <div class="stat-item">
               <span class="stat-label">Складність</span>
-              <span class="stat-value">★★★★★</span>
+              <span class="stat-value">★★★☆☆</span>
             </div>
             <div class="stat-item">
               <span class="stat-label">Позиція</span>
@@ -133,7 +126,6 @@
         </div>
       </div>
 
-      <!-- П'ятий слайд: Yuumi (кішечка) -->
       <div class="slide" data-bg="yuumi">
         <div class="slide-bg"></div>
         <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yuumi_0.jpg" alt="Yuumi" />
@@ -150,7 +142,7 @@
             </div>
             <div class="stat-item">
               <span class="stat-label">Складність</span>
-              <span class="stat-value">★★☆☆☆</span>
+              <span class="stat-value">★☆☆☆☆</span>
             </div>
             <div class="stat-item">
               <span class="stat-label">Позиція</span>
@@ -161,7 +153,6 @@
       </div>
     </div>
 
-    <!-- Покращені елементи управління -->
     <div class="controls">
       <button id="prev" aria-label="Попередній слайд" class="control-btn">
         <span class="btn-bg"></span>
@@ -175,17 +166,14 @@
       </button>
     </div>
 
-    <!-- Розумна кнопка паузи -->
     <button class="pause-play" id="pausePlay" aria-label="Пауза/відновити">
       <span class="pause-bg"></span>
       <span class="pause-icon">⏸</span>
       <div class="pulse-ring"></div>
     </button>
 
-    <!-- Модернізовані індикатори -->
     <div class="indicators" id="indicators"></div>
 
-    <!-- Прогрес-бар з ефектами -->
     <div class="progress-container">
       <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
@@ -193,20 +181,17 @@
       </div>
     </div>
 
-    <!-- Декоративні елементи -->
     <div class="slide-counter">
       <span id="currentSlide">1</span>
       <span class="counter-separator">/</span>
       <span id="totalSlides">5</span>
     </div>
 
-    <!-- Брендинг слайдера -->
     <div class="slider-brand">
       <div class="brand-logo">LoL</div>
       <div class="brand-text">Champions</div>
     </div>
 
-    <!-- Навігаційні підказки -->
     <div class="nav-hints">
       <div class="hint left">
         <span class="hint-icon">←</span>
