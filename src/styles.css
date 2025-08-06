@@ -17,6 +17,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iNCIgZmlsbD0iIzAwZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjgiLz4KPC9zdmc+'), auto;
 }
 
 .background-container {
@@ -400,6 +401,7 @@ body {
   overflow: hidden;
   border-radius: 50%;
   transition: all 0.3s ease;
+  cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iNiIgZmlsbD0iI2ZmNzdjNiIgZmlsbC1vcGFjaXR5PSIwLjgiLz4KPC9zdmc+'), pointer;
 }
 
 .btn-bg {
@@ -642,15 +644,19 @@ body {
   animation: progressShine 2s ease-in-out infinite;
 }
 
-@keyframes progressGlow {
-
-  0%,
-  100% {
+@keyframes progressShine {
+  0% {
+    transform: translateX(-100px);
     opacity: 0;
   }
 
   50% {
     opacity: 1;
+  }
+
+  100% {
+    transform: translateX(100px);
+    opacity: 0;
   }
 }
 
